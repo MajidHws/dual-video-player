@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Vertical Video Player</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      height: 100vh;
+    }
+
+    #main-container {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    #file-panel {
+      max-width: 300px;
+      flex: 0 0 300px;
+      background: #f9f9f9;
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      border-right: 1px solid #ccc;
+    }
+
+    #file-panel-header {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    #file-panel input[type="text"] {
+      flex: 1;
+      padding: 5px;
+    }
+
+    #file-list {
+      flex: 1;
+      overflow-y: auto;
+      border-top: 1px solid #ccc;
+      margin-top: 10px;
+    }
+
+    #video-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column; /* Stack videos vertically */
+      gap: 10px;
+      padding: 10px;
+      box-sizing: border-box;
+      overflow-y: auto;
+    }
+
+    .video-wrapper {
+      width: 100%; /* Take up full width of parent */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      max-width: 100%;
+    }
+    .video-wrapper-bigger {
+      width: 100%; /* Take up full width of parent */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      max-width: 100%;
+
+    }
+
+    .video-wrapper video {
+      width: 100%; /* Ensure video occupies full width */
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .smaller-vid {
+        height: 300px;
+    }
+
+    .first-vid {
+        height: 200px;
+    }
+
+    .second-vid {
+        height: 700px;
+    }
+
+    #controls {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      background: #fff;
+      padding: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+    }
+
+    button, input[type="range"] {
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="main-container">
+    <div id="file-panel">
+      <div id="file-panel-header">
+        <input type="file" id="directoryInput" webkitdirectory>
+        <div style="display: flex; gap: 10px;">
+          <input type="text" id="searchInput" placeholder="Search videos...">
+          <button id="loadSelected">Load Videos</button>
+        </div>
+      </div>
+      <div id="file-list"></div>
+    </div>
+    <div id="video-panel"></div>
+  </div>
+
+  <div id="controls">
+    <button id="playPause">Play/Pause All</button>
+    <label>Volume: 
+      <input type="range" id="volume" min="0" max="1" step="0.1" value="0.5">
+    </label>
+    <button id="syncSeek">Sync Seek</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
