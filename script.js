@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const playPauseBtn = document.getElementById('playPause');
     const volumeSlider = document.getElementById('volume');
     const syncSeekBtn = document.getElementById('syncSeek');
+    const playbackSpeedBtn = document.getElementById('playbackSpeed');
+    const rewindBtn = document.getElementById('rewind');
   
     let videoFiles = [];
     let videoElements = [];
@@ -99,5 +101,20 @@ document.addEventListener('DOMContentLoaded', () => {
       if (videoElements.length === 0) return;
       const masterTime = videoElements[0].currentTime; // Use the first video as master
       videoElements.forEach(video => (video.currentTime = masterTime));
+    });
+
+    // Change playback speed
+    playbackSpeedBtn.addEventListener('click', () => {
+        const newSpeed = prompt('Enter playback speed (e.g., 1 for normal, 0.5 for half speed, 2 for double speed):', '1');
+        if (newSpeed !== null) {
+            videoElements.forEach(video => (video.playbackRate = parseFloat(newSpeed)));
+        }
+    });
+
+    // Rewind all videos by 5 seconds
+    rewindBtn.addEventListener('click', () => {
+        videoElements.forEach(video => {
+            video.currentTime = Math.max(0, video.currentTime - 5);
+        });
     });
   });
