@@ -6,11 +6,12 @@
   <title>Responsive Vertical Video Player</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Roboto', sans-serif;
       margin: 0;
       padding: 0;
       display: flex;
       height: 100vh;
+      background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
     }
 
     #main-container {
@@ -22,11 +23,12 @@
     #file-panel {
       max-width: 300px;
       flex: 0 0 300px;
-      background: #f9f9f9;
+      background: #ffffff;
       display: flex;
       flex-direction: column;
-      padding: 10px;
+      padding: 20px;
       border-right: 1px solid #ccc;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     }
 
     #file-panel-header {
@@ -38,7 +40,9 @@
 
     #file-panel input[type="text"] {
       flex: 1;
-      padding: 5px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
     }
 
     #file-list {
@@ -53,7 +57,7 @@
       display: flex;
       flex-direction: column; /* Stack videos vertically */
       gap: 10px;
-      padding: 10px;
+      padding: 20px;
       box-sizing: border-box;
       overflow-y: auto;
     }
@@ -81,6 +85,11 @@
       height: auto;
       border-radius: 8px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .video-wrapper video:hover {
+      transform: scale(1.02);
     }
 
     .smaller-vid {
@@ -101,14 +110,31 @@
       left: 50%;
       transform: translateX(-50%);
       z-index: 1000;
-      background: #fff;
+      background: #ffffff;
       padding: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       border-radius: 8px;
+      display: flex;
+      gap: 10px;
     }
 
     button, input[type="range"] {
       margin: 5px;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      background: #007bff;
+      color: #ffffff;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover, input[type="range"]:hover {
+      background: #0056b3;
+    }
+
+    .playing {
+      border: 2px solid #007bff;
     }
   </style>
 </head>
@@ -136,6 +162,7 @@
     <button id="syncSeek">Sync Seek</button>
     <button id="playbackSpeed">Change Playback Speed</button>
     <button id="rewind">Rewind 5s</button>
+    <button id="fullscreen">Fullscreen</button>
   </div>
 
   <script src="script.js"></script>

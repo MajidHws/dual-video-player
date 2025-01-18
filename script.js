@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const syncSeekBtn = document.getElementById('syncSeek');
     const playbackSpeedBtn = document.getElementById('playbackSpeed');
     const rewindBtn = document.getElementById('rewind');
+    const fullscreenBtn = document.getElementById('fullscreen');
   
     let videoFiles = [];
     let videoElements = [];
@@ -73,6 +74,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (i === 1) {
             video.classList.add('second-vid');
         }
+
+        video.addEventListener('play', () => highlightPlayingVideo(video));
+        video.addEventListener('pause', () => removeHighlight(video));
   
         videoWrapper.appendChild(video);
         videoPanel.appendChild(videoWrapper);
@@ -81,6 +85,17 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   
+    // Highlight currently playing video
+    const highlightPlayingVideo = (video) => {
+      videoElements.forEach(v => v.classList.remove('playing'));
+      video.classList.add('playing');
+    };
+
+    // Remove highlight from paused video
+    const removeHighlight = (video) => {
+      video.classList.remove('playing');
+    };
+
     // Play/Pause all videos
     playPauseBtn.addEventListener('click', () => {
       if (videoElements.some(video => video.paused)) {
@@ -116,5 +131,21 @@ document.addEventListener('DOMContentLoaded', () => {
         videoElements.forEach(video => {
             video.currentTime = Math.max(0, video.currentTime - 5);
         });
+    });
+
+    // Toggle fullscreen for the first video
+    fullscreenBtn.addEventListener('click', () => {
+      if (videoElements.length > 0) {
+        const video = videoElements[0];
+        if (video.requestFullscreen) {
+          video.requestFullscreen();
+        } else if (video.mozRequestFullScreen) { // Firefox
+          video.mozRequestFullScreen();
+        } else if (video.webkitRequestFullscreen) { // Chrome, Safari and Opera
+          video.webkitRequestFullscreen();
+        } else if (video.msRequestFullscreen) { // IE/Edge
+          video.msRequestFullscreen();
+        }
+      }
     });
   });
