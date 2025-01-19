@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const playbackSpeedBtn = document.getElementById('playbackSpeed');
     const rewindBtn = document.getElementById('rewind');
     const fullscreenBtn = document.getElementById('fullscreen');
+    const toggleThemeBtn = document.getElementById('toggleTheme');
   
     let videoFiles = [];
     let videoElements = [];
@@ -17,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle directory input and display file list
     directoryInput.addEventListener('change', (event) => {
       videoFiles = Array.from(event.target.files).filter(file => file.type.startsWith('video/'));
-      renderFileList(videoFiles);
+      renderFileList(videoFiles.map((file, index) => ({ file, originalIndex: index })));
     });
   
     // Render file list with filtering support
@@ -29,24 +30,26 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
   
-      files.forEach((file, index) => {
+      files.forEach(({ file, originalIndex }) => {
         const label = document.createElement('label');
         label.innerHTML = `
-          <input type="checkbox" data-index="${index}">
+          <input type="checkbox" data-original-index="${originalIndex}">
           ${file.name}
           <hr />
         `;
         fileList.appendChild(label);
       });
     };
-  
+
     // Filter files based on search input
     searchInput.addEventListener('input', () => {
       const query = searchInput.value.toLowerCase();
-      const filteredFiles = videoFiles.filter(file => file.name.toLowerCase().includes(query));
+      const filteredFiles = videoFiles
+        .map((file, index) => ({ file, originalIndex: index }))
+        .filter(({ file }) => file.name.toLowerCase().includes(query));
       renderFileList(filteredFiles);
     });
-  
+
     // Load selected videos
     loadSelectedBtn.addEventListener('click', () => {
       videoPanel.innerHTML = '';
@@ -59,8 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   
       selectedCheckboxes.forEach((checkbox, i) => {
-        const fileIndex = parseInt(checkbox.dataset.index, 10);
-        const file = videoFiles[fileIndex];
+        const originalIndex = parseInt(checkbox.dataset.originalIndex, 10);
+        const file = videoFiles[originalIndex];
   
         // Create a wrapper for each video
         const videoWrapper = document.createElement('div');
@@ -147,5 +150,13 @@ document.addEventListener('DOMContentLoaded', () => {
           video.msRequestFullscreen();
         }
       }
+    });
+
+    // Toggle dark mode
+    toggleThemeBtn.addEventListener('click', () => {
+      const currentTheme = document.body.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      document.body.setAttribute('data-theme', newTheme);
+      toggleThemeBtn.textContent = newTheme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode';
     });
   });

@@ -5,13 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Responsive Vertical Video Player</title>
   <style>
+    :root {
+      --background-color: #f5f7fa;
+      --text-color: #fff;
+      --panel-background: #ffffff;
+      --border-color: #ccc;
+      --button-background: #007bff;
+      --button-hover: #0056b3;
+      --playing-border: #007bff;
+    }
+
+    [data-theme="dark"] {
+      --background-color: #181818;
+      --text-color: #fff;
+      --panel-background: #202020;
+      --border-color: #333;
+      --button-background: #ff0000;
+      --button-hover: #cc0000;
+      --playing-border: #ff0000;
+    }
+
     body {
       font-family: 'Roboto', sans-serif;
       margin: 0;
       padding: 0;
       display: flex;
       height: 100vh;
-      background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+      background: var(--background-color);
+      color: var(--text-color);
     }
 
     #main-container {
@@ -23,11 +44,11 @@
     #file-panel {
       max-width: 300px;
       flex: 0 0 300px;
-      background: #ffffff;
+      background: var(--panel-background);
       display: flex;
       flex-direction: column;
       padding: 20px;
-      border-right: 1px solid #ccc;
+      border-right: 1px solid var(--border-color);
       box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     }
 
@@ -41,14 +62,16 @@
     #file-panel input[type="text"] {
       flex: 1;
       padding: 10px;
-      border: 1px solid #ccc;
+      border: 1px solid var(--border-color);
       border-radius: 4px;
+      background: var(--panel-background);
+      color: var(--text-color);
     }
 
     #file-list {
       flex: 1;
       overflow-y: auto;
-      border-top: 1px solid #ccc;
+      border-top: 1px solid var(--border-color);
       margin-top: 10px;
     }
 
@@ -110,7 +133,7 @@
       left: 50%;
       transform: translateX(-50%);
       z-index: 1000;
-      background: #ffffff;
+      background: var(--panel-background);
       padding: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       border-radius: 8px;
@@ -120,25 +143,26 @@
 
     button, input[type="range"] {
       margin: 5px;
-      padding: 10px;
+      padding: 5px 10px;
+      font-size: 10px;
       border: none;
       border-radius: 4px;
-      background: #007bff;
-      color: #ffffff;
+      background: var(--button-background);
+      color: var(--text-color);
       cursor: pointer;
       transition: background 0.3s ease;
     }
 
     button:hover, input[type="range"]:hover {
-      background: #0056b3;
+      background: var(--button-hover);
     }
 
     .playing {
-      border: 2px solid #007bff;
+      border: 2px solid var(--playing-border);
     }
   </style>
 </head>
-<body>
+<body data-theme="dark">
 
   <div id="main-container">
     <div id="file-panel">
@@ -163,6 +187,7 @@
     <button id="playbackSpeed">Change Playback Speed</button>
     <button id="rewind">Rewind 5s</button>
     <button id="fullscreen">Fullscreen</button>
+    <button id="toggleTheme">Toggle Dark Mode</button>
   </div>
 
   <script src="script.js"></script>
