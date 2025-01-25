@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const rewindBtn = document.getElementById('rewind');
     const fullscreenBtn = document.getElementById('fullscreen');
     const toggleThemeBtn = document.getElementById('toggleTheme');
+    const swapVideosBtn = document.getElementById('swapVideos');
   
     let videoFiles = [];
     let videoElements = [];
@@ -158,5 +159,28 @@ document.addEventListener('DOMContentLoaded', () => {
       const newTheme = currentTheme === 'light' ? 'dark' : 'light';
       document.body.setAttribute('data-theme', newTheme);
       toggleThemeBtn.textContent = newTheme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode';
+    });
+
+    // Swap the places and styles of the videos
+    swapVideosBtn.addEventListener('click', () => {
+      if (videoElements.length < 2) {
+        alert('Please load at least two videos to swap.');
+        return;
+      }
+
+      const firstVideoWrapper = videoElements[0].parentElement;
+      const secondVideoWrapper = videoElements[1].parentElement;
+
+      videoPanel.insertBefore(secondVideoWrapper, firstVideoWrapper);
+      videoPanel.insertBefore(firstVideoWrapper, secondVideoWrapper.nextSibling);
+
+      // Swap the elements in the array
+      [videoElements[0], videoElements[1]] = [videoElements[1], videoElements[0]];
+
+      // Swap the styles
+      videoElements[0].classList.toggle('first-vid');
+      videoElements[0].classList.toggle('second-vid');
+      videoElements[1].classList.toggle('first-vid');
+      videoElements[1].classList.toggle('second-vid');
     });
   });
